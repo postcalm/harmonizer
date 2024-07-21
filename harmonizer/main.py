@@ -8,7 +8,7 @@ class Harmonizer:
     def __init__(self, page: ft.Page):
         self.page = page
         page.title = "Harmonizer"
-        page.window.width = 700
+        page.window.width = 750
         page.window.height = 350
 
         self.guitar_neck = GuitarNeck(page)
