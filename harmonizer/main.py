@@ -1,17 +1,18 @@
 import flet as ft
 
-from harmonizer.guitar_neck import GuitarNeck
+from harmonizer.gui.homepage import UIHomepage
 
 
 class Harmonizer:
 
     def __init__(self, page: ft.Page):
         self.page = page
+        # page.window.center()
         page.title = "Harmonizer"
         page.window.width = 750
-        page.window.height = 350
+        page.window.height = 470
 
-        self.guitar_neck = GuitarNeck(page)
+        self.homepage = UIHomepage(page)
 
         page.on_route_change = self.route_change
         page.on_view_pop = self.view_pop
@@ -19,7 +20,7 @@ class Harmonizer:
 
     def route_change(self, _):
         self.page.views.clear()
-        self.page.views.append(self.guitar_neck)
+        self.page.views.append(self.homepage)
         self.page.update()
 
     def view_pop(self, _):

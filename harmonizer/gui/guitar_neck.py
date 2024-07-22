@@ -4,26 +4,23 @@ from harmonizer.tuning import Standard
 from harmonizer.notes import Notes
 
 
-class GuitarNeck(ft.View):
+class UIGuitarNeck(ft.Container):
     def __init__(self, page: ft.Page):
         super().__init__()
-        self.route = "/"
+
+        self.padding = ft.Padding(0, 20, 0, 0)
 
         # TODO: select through ui
         self.open_strings = ft.Column([
             self._note(n) for n in Standard.E
         ])
 
-        self.controls.append(
-            ft.Container(
-                ft.Row([
-                    self.open_strings,
-                    ft.VerticalDivider(width=15, color=ft.colors.BLACK),
-                    ft.Column(self.strings(), spacing=10)
-                ],
-                    height=270,
-                )
-            )
+        self.content = ft.Row([
+            self.open_strings,
+            ft.VerticalDivider(width=15, color=ft.colors.BLACK),
+            ft.Column(self.strings(), spacing=10)
+        ],
+            height=270,
         )
 
     def strings(self) -> list:
