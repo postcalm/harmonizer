@@ -1,7 +1,8 @@
 import flet as ft
 
-from harmonizer.tuning import Tuning
-from harmonizer.notes import Notes
+from harmonizer.types.dataclasses.tuning import Tuning
+from harmonizer.types.enums.notes import Notes
+from harmonizer.types.enums.chords import Functions
 
 
 class UIGuitarNeck(ft.Container):
@@ -23,7 +24,6 @@ class UIGuitarNeck(ft.Container):
 
     def strings(self) -> list:
         strings = []
-        # TODO: select through ui
         tune = self.page.client_storage.get("tune") or Tuning.aslist()[0]
         for n in Tuning.asdict().get(tune):
             stack = ft.Stack([
@@ -39,7 +39,7 @@ class UIGuitarNeck(ft.Container):
         return strings
 
     def _note(self, n):
-        return ft.Container(
+        note = ft.Container(
             ft.Text(n, size=24),
             alignment=ft.alignment.center,
             width=37,
@@ -53,6 +53,8 @@ class UIGuitarNeck(ft.Container):
                 blur_style=ft.ShadowBlurStyle.NORMAL,
             )
         )
+        # self.paint_note(note)
+        return note
 
     def draw_tune(self):
         self.open_strings.controls.clear()
@@ -70,3 +72,6 @@ class UIGuitarNeck(ft.Container):
 
     def _draw_tune_string(self):
         return ft.Column(self.strings(), spacing=10)
+
+    def paint_note(self, note: ft.Container):
+        note.bgcolor = Functions.TONIC

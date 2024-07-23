@@ -2,6 +2,7 @@ import flet as ft
 
 from harmonizer.gui.tuning import UITuning
 from harmonizer.gui.guitar_neck import UIGuitarNeck
+from harmonizer.gui.tonality import UITonality
 
 
 class UIHomepage(ft.View):
@@ -13,8 +14,9 @@ class UIHomepage(ft.View):
 
         self.tuning = UITuning(page)
         self.guitar_neck = UIGuitarNeck(page)
+        self.tonality = UITonality(page)
 
         self.controls = [
-            self.tuning,
+            ft.Row([self.tuning, self.tonality]),
             self.guitar_neck,
         ]

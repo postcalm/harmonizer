@@ -1,7 +1,8 @@
 import flet as ft
 
-from harmonizer.tuning import Tuning
+from harmonizer.types.dataclasses.tuning import Tuning
 from harmonizer.gui.guitar_neck import UIGuitarNeck
+from harmonizer.utils.gui import get_flet_control
 
 
 class UITuning(ft.Container):
@@ -9,8 +10,7 @@ class UITuning(ft.Container):
     def __init__(self, page: ft.Page):
         super().__init__()
         self.page = page
-        self.homepage = self.page.views[0]
-        self.width = 400
+        self.width = 250
 
         self.tune = ft.Dropdown(
             label="Guitar tune",
@@ -19,13 +19,11 @@ class UITuning(ft.Container):
             on_change=self._chosen_type,
         )
 
-        self.content = ft.Column([
-            self.tune,
-        ])
+        self.content = self.tune
 
     def _chosen_type(self, e: ft.ControlEvent):
         self.page.client_storage.set("tune", e.data)
-        neck: UIGuitarNeck = self.parent.controls[1]
+        neck: UIGuitarNeck = get_flet_control(self, "UIGuitarNeck")
         neck.draw_tune()
 
     def _tune_list(self):
