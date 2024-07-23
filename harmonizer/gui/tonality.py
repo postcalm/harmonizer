@@ -24,7 +24,7 @@ class UITonality(ft.Container):
     def _chosen_type(self, e: ft.ControlEvent):
         self.page.client_storage.set("tonality", e.data)
         neck: UIGuitarNeck = get_flet_control(self, "UIGuitarNeck")
-        # neck.draw_tune()
+        neck.draw_tune()
 
     def _ton_list(self):
         return [

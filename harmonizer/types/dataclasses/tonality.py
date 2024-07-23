@@ -3,6 +3,8 @@ from harmonizer.types.dataclasses import Dataclass
 
 class Tonality(Dataclass):
 
-    Major = (2, 2, 1, 2, 2, 2, 1)
+    # tonica - ton - ton - half - ton - ton - ton - half
+    Major = (0, 2, 4, 5, 7, 9, 11)
 
-    Minor = (2, 1, 2, 2, 1, 2, 2)
+    # tonica - ton - half - ton - ton - half - ton - ton
+    Minor = (0, 2, 3, 5, 7, 8, 10)
