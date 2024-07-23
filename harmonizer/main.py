@@ -9,8 +9,8 @@ class Harmonizer:
         self.page = page
         # page.window.center()
         page.title = "Harmonizer"
-        page.window.width = 750
-        page.window.height = 470
+        page.window.max_width = page.window.min_width = 750
+        page.window.max_height = page.window.min_height = 470
 
         self.homepage = UIHomepage(page)
 
