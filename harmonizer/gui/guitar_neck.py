@@ -1,24 +1,22 @@
 import flet as ft
 
-from harmonizer.tuning import Standard
+from harmonizer.tuning import Tuning
 from harmonizer.notes import Notes
 
 
 class UIGuitarNeck(ft.Container):
     def __init__(self, page: ft.Page):
         super().__init__()
-
+        self.page = page
         self.padding = ft.Padding(0, 20, 0, 0)
 
-        # TODO: select through ui
-        self.open_strings = ft.Column([
-            self._note(n) for n in Standard.E
-        ])
+        self.open_strings = self._draw_open_string()
+        self.neck = self._draw_tune_string()
 
         self.content = ft.Row([
             self.open_strings,
             ft.VerticalDivider(width=15, color=ft.colors.BLACK),
-            ft.Column(self.strings(), spacing=10)
+            self.neck,
         ],
             height=270,
         )
@@ -26,7 +24,8 @@ class UIGuitarNeck(ft.Container):
     def strings(self) -> list:
         strings = []
         # TODO: select through ui
-        for n in Standard.E:
+        tune = self.page.client_storage.get("tune") or Tuning.aslist()[0]
+        for n in Tuning.asdict().get(tune):
             stack = ft.Stack([
                 ft.Divider(height=37, color=ft.colors.BLACK),
                 ft.Row(
@@ -54,3 +53,20 @@ class UIGuitarNeck(ft.Container):
                 blur_style=ft.ShadowBlurStyle.NORMAL,
             )
         )
+
+    def draw_tune(self):
+        self.open_strings.controls.clear()
+        self.open_strings.controls.append(self._draw_open_string())
+        self.neck.controls.clear()
+        self.neck.controls.append(self._draw_tune_string())
+        self.open_strings.update()
+        self.neck.update()
+
+    def _draw_open_string(self):
+        tune = self.page.client_storage.get("tune") or Tuning.aslist()[0]
+        return ft.Column([
+            self._note(n) for n in Tuning.asdict().get(tune)
+        ])
+
+    def _draw_tune_string(self):
+        return ft.Column(self.strings(), spacing=10)
