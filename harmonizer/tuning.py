@@ -18,6 +18,7 @@ class _tuning:  # noqa
 
 
 class Tuning(_tuning):
+    # standard
     Standard_E = (
         Notes.E,
         Notes.B,
@@ -27,6 +28,7 @@ class Tuning(_tuning):
         Notes.E,
     )
 
+    # midwest
     FACGCE = (
         Notes.E,
         Notes.C,
@@ -34,4 +36,14 @@ class Tuning(_tuning):
         Notes.C,
         Notes.A,
         Notes.F,
+    )
+
+    # open
+    Open_C = (
+        Notes.E,
+        Notes.C,
+        Notes.G,
+        Notes.C,
+        Notes.G,
+        Notes.C,
     )
