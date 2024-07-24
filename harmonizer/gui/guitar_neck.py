@@ -3,7 +3,7 @@ import flet as ft
 from harmonizer.types.dataclasses.tonality import Tonality
 from harmonizer.types.dataclasses.tuning import Tuning
 from harmonizer.types.enums.notes import Notes
-from harmonizer.types.enums.chords import Functions
+from harmonizer.types.enums.tier import Functions
 
 
 class UIGuitarNeck(ft.Container):
@@ -79,8 +79,9 @@ class UIGuitarNeck(ft.Container):
         tune = self.page.client_storage.get("tune") or Tuning.aslist()[0]
         tonality = self.page.client_storage.get("tonality") or Tonality.aslist()[0]
         tonica = self.page.client_storage.get("tonica") or Tuning.asdict().get(tune)[-1]
-        tonality = Tonality.asdict().get(tonality)
+        tonality, tier = Tonality.asdict().get(tonality)
         notes = Notes.get(tonica)
         notes = [notes[t] for t in tonality]
-        if note.content.value in notes:
-            note.bgcolor = Functions.TONIC
+        notes = dict(zip(notes, tier))
+        if note.content.value in notes.keys():
+            note.bgcolor = notes.get(note.content.value)
