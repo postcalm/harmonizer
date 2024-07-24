@@ -33,7 +33,7 @@ class Harmonizer:
     def _resize(self, _):
         self.page.window.max_width = \
             self.page.window.min_width = \
-            self.page.window.width = 750
+            self.page.window.width = 800
         self.page.window.max_height = \
             self.page.window.min_height = \
             self.page.window.height = 470

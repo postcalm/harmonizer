@@ -27,14 +27,15 @@ class UIGuitarNeck(ft.Container):
         strings = []
         tune = self.page.client_storage.get("tune") or Tuning.aslist()[0]
         for n in Tuning.asdict().get(tune):
+            notes = Notes.get(n)[1:] + [Notes.get(n)[0]]
             stack = ft.Stack([
                 ft.Divider(height=37, color=ft.colors.BLACK),
                 ft.Row(
-                    [self._note(n) for n in Notes.get(n)[1:]],
+                    [self._note(n) for n in notes],
                     spacing=20,
                 ),
             ],
-                width=600,
+                width=660,
             )
             strings.append(stack)
         return strings
