@@ -77,7 +77,7 @@ class UIGuitarNeck(ft.Container):
     def paint_note(self, note: ft.Container):
         tune = self.page.client_storage.get("tune") or Tuning.aslist()[0]
         tonality = self.page.client_storage.get("tonality") or Tonality.aslist()[0]
-        tonica = Tuning.asdict().get(tune)[0]
+        tonica = self.page.client_storage.get("tonica") or Tuning.asdict().get(tune)[-1]
         tonality = Tonality.asdict().get(tonality)
         notes = Notes.get(tonica)
         notes = [notes[t] for t in tonality]
