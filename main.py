@@ -39,5 +39,4 @@ class Harmonizer:
             self.page.window.height = 470
 
 
-if __name__ == "__main__":
-    ft.app(Harmonizer)
+ft.app(Harmonizer)
