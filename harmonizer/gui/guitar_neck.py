@@ -3,7 +3,6 @@ import flet as ft
 from harmonizer.types.dataclasses.tonality import Tonality
 from harmonizer.types.dataclasses.tuning import Tuning
 from harmonizer.types.enums.notes import Notes
-from harmonizer.types.enums.tier import Functions
 
 
 class UIGuitarNeck(ft.Container):

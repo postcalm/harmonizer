@@ -7,7 +7,7 @@ class Harmonizer:
 
     def __init__(self, page: ft.Page):
         self.page = page
-        # page.window.center()
+        page.window.center()
         page.title = "Harmonizer"
 
         self._resize(None)

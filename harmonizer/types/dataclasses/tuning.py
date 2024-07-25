@@ -13,6 +13,24 @@ class Tuning(Dataclass):
         Notes.E,
     )
 
+    Drop_D = (
+        Notes.E,
+        Notes.B,
+        Notes.G,
+        Notes.D,
+        Notes.A,
+        Notes.D,
+    )
+
+    Drop_C = (
+        Notes.D,
+        Notes.A,
+        Notes.F,
+        Notes.C,
+        Notes.G,
+        Notes.C,
+    )
+
     # midwest
     FACGCE = (
         Notes.E,
@@ -21,6 +39,15 @@ class Tuning(Dataclass):
         Notes.C,
         Notes.A,
         Notes.F,
+    )
+
+    DAEACE = (
+        Notes.E,
+        Notes.C,
+        Notes.A,
+        Notes.E,
+        Notes.A,
+        Notes.D,
     )
 
     # open
