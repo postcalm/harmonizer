@@ -9,7 +9,7 @@ class UIGuitarNeck(ft.Container):
     def __init__(self, page: ft.Page):
         super().__init__()
         self.page = page
-        self.padding = ft.Padding(0, 20, 0, 0)
+        self.padding = ft.padding.all(20)
 
         self.open_strings = self._draw_open_string()
         self.neck = self._draw_tune_string()

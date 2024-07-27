@@ -9,6 +9,9 @@ class Harmonizer:
         self.page = page
         page.window.center()
         page.title = "Harmonizer"
+        page.window.frameless = True
+        page.window.shadow = True
+        page.window.resizable = False
 
         self._resize(None)
 
@@ -25,12 +28,12 @@ class Harmonizer:
         self.page.update()
 
     def _resize(self, _):
-        self.page.window.max_width = \
+        self.page.window.width = \
             self.page.window.min_width = \
-            self.page.window.width = 800
-        self.page.window.max_height = \
+            self.page.window.max_width = 800
+        self.page.window.height = \
             self.page.window.min_height = \
-            self.page.window.height = 470
+            self.page.window.max_height = 470
 
 
 ft.app(Harmonizer)
