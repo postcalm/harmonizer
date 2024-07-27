@@ -15,7 +15,6 @@ class Harmonizer:
         self.homepage = UIHomepage(page)
 
         page.on_route_change = self.route_change
-        page.on_view_pop = self.view_pop
         page.go(page.route)
 
         page.window.on_event = self._resize
@@ -24,11 +23,6 @@ class Harmonizer:
         self.page.views.clear()
         self.page.views.append(self.homepage)
         self.page.update()
-
-    def view_pop(self, _):
-        self.page.views.pop()
-        top_view = self.page.views[-1]
-        self.page.go(top_view.route)
 
     def _resize(self, _):
         self.page.window.max_width = \
