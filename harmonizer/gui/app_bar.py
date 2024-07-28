@@ -6,15 +6,43 @@ class Menu(ft.Row):
         super().__init__()
         self.controls = [
             ft.WindowDragArea(
-                ft.Container(
-                    ft.Row([
-                        ft.Text(""),
-                        ft.IconButton(ft.icons.CLOSE, on_click=lambda _: page.window.close()),
-                    ],
-                        alignment=ft.MainAxisAlignment.SPACE_BETWEEN
+                ft.MenuBar(
+                    expand=True,
+                    style=ft.MenuStyle(
+                        alignment=ft.alignment.top_left,
+                        bgcolor=ft.colors.LIGHT_BLUE_100,
                     ),
-                    bgcolor=ft.colors.LIGHT_BLUE_100,
-                    padding=ft.Padding(20, 0, 20, 0),
+                    controls=[
+                        ft.Row([
+                            ft.Row([
+                                ft.SubmenuButton(
+                                    ft.Text("File"),
+                                    [
+                                        ft.MenuItemButton(
+                                            ft.Text("Will be later...")
+                                        )
+                                    ],
+                                    width=40
+                                ),
+                                ft.SubmenuButton(
+                                    ft.Text("Tools"),
+                                    [
+                                        ft.MenuItemButton(
+                                            ft.Text("Quint circle")
+                                        )
+                                    ],
+                                    width=50
+                                )
+                            ]),
+                            ft.Row([
+                                ft.IconButton(ft.icons.CLOSE, on_click=lambda _: page.window.close())
+                            ]),
+                        ],
+                            width=780,
+                            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                            expand=True,
+                        )
+                    ]
                 ),
                 expand=True
             ),
