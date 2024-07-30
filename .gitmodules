@@ -1,0 +1,3 @@
+[submodule "contrib/circle_list"]
+	path = contrib/circle_list
+	url = https://github.com/asjqkkkk/circle_list
