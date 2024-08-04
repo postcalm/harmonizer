@@ -1,35 +1,99 @@
 import flet as ft
 
+qqc = {
+    "C": "Am",
+    "G": "Em",
+    "D": "Bm",
+    "A": "F#m",
+    "E": "C#m",
+    "B": "G#m",
+    "F#": "Ebm",
+    "C#": "Bbm",
+    "G#": "Fm",
+    "Eb": "Cm",
+    "Bb": "Gm",
+    "F": "Dm",
+}
+invert_qqc = {v: k for k, v in qqc.items()}
 
-class CircleFifths:
+
+class QQCSection(ft.PieChart):
+    normal_radius = 70
+    hover_radius = 80
+
+    def __init__(self, space_radius: int, tonality: list):
+        super().__init__()
+        self.sections_space = 1
+        self.start_degree_offset = -135
+        self.center_space_radius = space_radius
+
+        self.normal_title_style = ft.TextStyle(
+            size=16, color=ft.colors.WHITE, weight=ft.FontWeight.BOLD
+        )
+        self.hover_title_style = ft.TextStyle(
+            size=22,
+            color=ft.colors.WHITE,
+            weight=ft.FontWeight.BOLD,
+            shadow=ft.BoxShadow(blur_radius=2, color=ft.colors.BLACK54),
+        )
+
+        self.sections = [
+            self._part_section(t) for t in tonality
+        ]
+
+        self.on_chart_event = self._on_chart_event
+
+    def _part_section(self, tonal: str):
+        return ft.PieChartSection(
+            12,
+            title=tonal,
+            title_style=self.normal_title_style,
+            radius=self.normal_radius,
+        )
+
+    def _on_chart_event(self, e: ft.PieChartEvent):
+        for idx, section in enumerate(self.sections):
+            if idx == e.section_index:
+                # section.radius = hover_radius
+                section.title_style = self.hover_title_style
+            else:
+                # section.radius = normal_radius
+                section.title_style = self.normal_title_style
+        self.update()
+
+
+class CircleFifths(ft.View):
     def __init__(self, page: ft.Page):
+        super().__init__()
         self.page = page
         page.title = "Circle of Fifths"
-        self._resize(None)
+        page.window.width = 600
+        page.window.height = 600
+        page.window.resizable = False
+        page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+        page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
-        ext = ft.Column([
-            ft.ResponsiveRow([
-                ft.Text("F"),
-                ft.Text("C"),
-                ft.Text("G"),
-            ],
+        self.outer = QQCSection(150, list(qqc.keys()))
+        self.inner = QQCSection(75, list(qqc.values()))
 
-            ),
-        ],
-            alignment=ft.MainAxisAlignment.CENTER,
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER
-        )
-        content = ft.Container(
-            ext,
-            alignment=ft.alignment.center,
-            shape=ft.BoxShape.CIRCLE,
-            border=ft.border.all(1),
-            expand=True,
-            expand_loose=True
-        )
-        page.add(content)
+        cinner = ft.Container(self.inner, on_hover=self._swap_qq, key="inner", height=250, width=250)
+        couter = ft.Container(self.outer, on_hover=self._swap_qq, key="outer")
 
-        page.window.on_event = self._resize
+        self.stack = ft.Stack([couter, cinner], expand=True, alignment=ft.alignment.center)
+
+        page.add(self.stack)
+
+        page.window.on_resized = self._resize
+
+    def _swap_qq(self, e: ft.ControlEvent):
+        new = e.control
+        current = self.stack.controls[-1]
+        if current.key == new.key:
+            return
+        new = self.stack.controls.index(e.control)
+        new = self.stack.controls.pop(new)
+        self.stack.controls.insert(0, new)
+        self.stack.update()
 
     def _resize(self, _):
         self.page.window.width = \
@@ -40,89 +104,4 @@ class CircleFifths:
             self.page.window.max_height = 600
 
 
-def main(page: ft.Page):
-    page.window.width = 600
-    page.window.height = 600
-    page.window.resizable = True
-    normal_radius = 70
-    hover_radius = 60
-    normal_title_style = ft.TextStyle(
-        size=16, color=ft.colors.WHITE, weight=ft.FontWeight.BOLD
-    )
-    hover_title_style = ft.TextStyle(
-        size=22,
-        color=ft.colors.WHITE,
-        weight=ft.FontWeight.BOLD,
-        shadow=ft.BoxShadow(blur_radius=2, color=ft.colors.BLACK54),
-    )
-
-    def on_chart_event(e: ft.PieChartEvent, chart):
-        for idx, section in enumerate(chart.sections):
-            if idx == e.section_index:
-                # section.radius = hover_radius
-                section.title_style = hover_title_style
-            else:
-                # section.radius = normal_radius
-                section.title_style = normal_title_style
-        chart.update()
-
-    outer = ft.PieChart(
-        [
-            ft.PieChartSection(
-                12,
-                title=note,
-                title_style=normal_title_style,
-                radius=normal_radius,
-            )
-            for note in ["F", "C", "G", "D", "A", "E", "B",
-                         "F#", "C#", "G#", "Eb", "Bb"]
-        ],
-        sections_space=1,
-        center_space_radius=150,
-        start_degree_offset=-135,
-        on_chart_event=lambda e: on_chart_event(e, outer),
-    )
-    inner = ft.PieChart(
-        [
-            ft.PieChartSection(
-                12,
-                title=note,
-                title_style=normal_title_style,
-                radius=normal_radius,
-            )
-            for note in ["Dm", "Am", "Em", "Bm", "F#m", "C#m", "G#m",
-                         "Ebm", "Bbm", "Fm", "Cm", "Gm"]
-        ],
-        sections_space=1,
-        center_space_radius=75,
-        start_degree_offset=-135,
-        on_chart_event=lambda e: on_chart_event(e, inner)
-    )
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
-
-    def outer_circle(e: ft.ControlEvent):
-        print(e.control)
-        new = e.control
-        current = stack.controls[-1]
-        if current.key == new.key:
-            return
-        new = stack.controls.index(e.control)
-        new = stack.controls.pop(new)
-        stack.controls.insert(0, new)
-        stack.update()
-
-    cinner = ft.Container(
-        inner, on_hover=outer_circle, border=ft.border.all(1), key="inner",
-        height=250, width=250
-    )
-    couter = ft.Container(
-        outer, on_hover=outer_circle, border=ft.border.all(1), key="outer")
-
-    stack = ft.Stack([couter, cinner], expand=True,
-                     alignment=ft.alignment.center)
-
-    page.add(stack)
-
-
-ft.app(main)
+# ft.app(CircleFifths)

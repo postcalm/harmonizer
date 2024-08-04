@@ -59,3 +59,11 @@ class Tuning(Dataclass):
         Notes.G,
         Notes.C,
     )
+    Open_D = (
+        Notes.D,
+        Notes.A,
+        Notes.G,
+        Notes.D,
+        Notes.A,
+        Notes.D,
+    )

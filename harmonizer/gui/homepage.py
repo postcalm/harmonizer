@@ -4,7 +4,7 @@ from harmonizer.gui.tuning import UITuning
 from harmonizer.gui.guitar_neck import UIGuitarNeck
 from harmonizer.gui.tonality import UITonality
 from harmonizer.gui.tonica import UITonica
-from harmonizer.gui.app_bar import Menu
+from harmonizer.gui.menu_bar import Menu
 
 
 class UIHomepage(ft.View):
