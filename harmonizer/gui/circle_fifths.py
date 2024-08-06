@@ -1,5 +1,7 @@
 import flet as ft
 
+from harmonizer.core.gui.menu import BaseMenu
+
 qqc = {
     "C": "Am",
     "G": "Em",
@@ -66,12 +68,16 @@ class CircleFifths(ft.View):
     def __init__(self, page: ft.Page):
         super().__init__()
         self.page = page
+        self.route = "/qqc"
+        self.padding = 0
         page.title = "Circle of Fifths"
         page.window.width = 600
         page.window.height = 600
         page.window.resizable = False
         page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
         page.vertical_alignment = ft.MainAxisAlignment.CENTER
+        page.window.title_bar_hidden = True
+        page.window.title_bar_buttons_hidden = True
 
         self.outer = QQCSection(150, list(qqc.keys()))
         self.inner = QQCSection(75, list(qqc.values()))
@@ -79,9 +85,15 @@ class CircleFifths(ft.View):
         cinner = ft.Container(self.inner, on_hover=self._swap_qq, key="inner", height=250, width=250)
         couter = ft.Container(self.outer, on_hover=self._swap_qq, key="outer")
 
+        self.menu = BaseMenu(575)
         self.stack = ft.Stack([couter, cinner], expand=True, alignment=ft.alignment.center)
-
-        page.add(self.stack)
+        self.controls = [
+            self.menu,
+            self.stack
+        ]
+        page.on_route_change = self.route_change
+        page.go(self.route)
+        page.update()
 
         page.window.on_resized = self._resize
 
@@ -95,6 +107,11 @@ class CircleFifths(ft.View):
         self.stack.controls.insert(0, new)
         self.stack.update()
 
+    def route_change(self, _):
+        self.page.views.clear()
+        self.page.views.append(self)
+        self.page.update()
+
     def _resize(self, _):
         self.page.window.width = \
             self.page.window.min_width = \
@@ -102,6 +119,3 @@ class CircleFifths(ft.View):
         self.page.window.height = \
             self.page.window.min_height = \
             self.page.window.max_height = 600
-
-
-# ft.app(CircleFifths)

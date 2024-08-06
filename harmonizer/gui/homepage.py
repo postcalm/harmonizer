@@ -18,7 +18,7 @@ class UIHomepage(ft.View):
         page.window.title_bar_hidden = True
         page.window.title_bar_buttons_hidden = True
 
-        self.menu = Menu(page)
+        self.menu = Menu(780, page)
         self.tuning = UITuning(page)
         self.guitar_neck = UIGuitarNeck(page)
         self.tonality = UITonality(page)

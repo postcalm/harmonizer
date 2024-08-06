@@ -1,3 +1,5 @@
+import multiprocessing
+
 import flet as ft
 
 from harmonizer.gui.homepage import UIHomepage
@@ -36,4 +38,6 @@ class Harmonizer:
             self.page.window.max_height = 470
 
 
-ft.app(Harmonizer)
+if __name__ == "__main__":
+    multiprocessing.freeze_support()
+    ft.app(Harmonizer)
