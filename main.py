@@ -1,3 +1,4 @@
+import sys
 import multiprocessing
 
 import flet as ft
@@ -39,5 +40,12 @@ class Harmonizer:
 
 
 if __name__ == "__main__":
+    # print(getattr(sys, "frozen", False))
+    # https://stackforgeeks.com/blog/pyinstallerbuilt-windows-exe-fails-with-multiprocessing-duplicate
+    # https://stackoverflow.com/questions/7067787/python-multiprocessing-processes-become-copies-of-the-main-process-when-run-fr
+    # https://pyinstaller.org/en/stable/runtime-information.html
+    print(sys.executable)
+    multiprocessing.set_executable(sys.executable)
+    setattr(sys, "frozen", True)
     multiprocessing.freeze_support()
     ft.app(Harmonizer)
