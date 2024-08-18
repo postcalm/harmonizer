@@ -67,10 +67,10 @@ class QQCSection(ft.PieChart):
 class CircleFifths(ft.View):
     def __init__(self, page: ft.Page):
         super().__init__()
+        self.route = "/"
         self.page = page
-        self.route = "/qqc"
         self.padding = 0
-        page.title = "Circle of Fifths"
+        page.window.center()
         page.window.width = 600
         page.window.height = 600
         page.window.resizable = False
@@ -93,7 +93,6 @@ class CircleFifths(ft.View):
         ]
         page.on_route_change = self.route_change
         page.go(self.route)
-        page.update()
 
         page.window.on_resized = self._resize
 
@@ -119,3 +118,7 @@ class CircleFifths(ft.View):
         self.page.window.height = \
             self.page.window.min_height = \
             self.page.window.max_height = 600
+
+
+if __name__ == "__main__":
+    ft.app(CircleFifths)

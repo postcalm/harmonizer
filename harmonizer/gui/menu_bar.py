@@ -1,9 +1,9 @@
+import os
+from pathlib import Path
 
 import flet as ft
-from flet_multi_page import subPage
 
 from harmonizer.core.gui.menu import BaseMenu
-from harmonizer.gui.circle_fifths import CircleFifths
 
 
 class Menu(BaseMenu):
@@ -40,5 +40,5 @@ class Menu(BaseMenu):
         )
 
     def open_qqc(self, _):
-        p = subPage(target=CircleFifths)
-        p.start()
+        here = Path.cwd() / "qqc.exe"
+        os.system(here)

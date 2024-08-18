@@ -1,5 +1,3 @@
-import multiprocessing
-
 import flet as ft
 
 from harmonizer.gui.homepage import UIHomepage
@@ -22,7 +20,7 @@ class Harmonizer:
         page.on_route_change = self.route_change
         page.go(page.route)
 
-        page.window.on_event = self._resize
+        page.window.on_resized = self._resize
 
     def route_change(self, _):
         self.page.views.clear()
@@ -39,5 +37,4 @@ class Harmonizer:
 
 
 if __name__ == "__main__":
-    multiprocessing.freeze_support()
     ft.app(Harmonizer)

@@ -5,6 +5,7 @@ class BaseMenu(ft.Row):
 
     def __init__(self, width: int, page: ft.Page = None):
         super().__init__()
+        self.page = page
         self.menu_items = ft.Row([])
         self.buttons = ft.Row([
             self.btn_close,
