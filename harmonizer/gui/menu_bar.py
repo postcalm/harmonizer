@@ -1,9 +1,9 @@
 import os
-from pathlib import Path
 
 import flet as ft
 
 from harmonizer.core.gui.menu import BaseMenu
+from harmonizer.utils.app import get_app_path, user_so_lib
 
 
 class Menu(BaseMenu):
@@ -40,5 +40,5 @@ class Menu(BaseMenu):
         )
 
     def open_qqc(self, _):
-        here = Path.cwd() / "qqc.exe"
-        os.system(here)
+        user_so_lib("qqc")
+        os.system(f"start {get_app_path() / 'qqc.exe'}")

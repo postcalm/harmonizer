@@ -4,6 +4,7 @@ set PROJECT_NAME=harmonizer
 set MODULE_NAME=
 set BUILD_DIR=
 set RESULT_DIR=build\harmonizer
+set FLET_VERSION=0.23.2
 
 
 if not exist "%RESULT_DIR%" mkdir %RESULT_DIR%
@@ -27,10 +28,12 @@ flet build windows ^
     --module-name %1 ^
     --project %2 ^
     -o %3 ^
-    --template ..\flet-build-template
+    --template gh:postcalm/flet-build-template ^
+    --template-ref %FLET_VERSION%
 
 xcopy "%3\*.*" "%RESULT_DIR%\" /s /q /y
 copy "%3\data\app.so" "%RESULT_DIR%\data\%2.so"
+
 goto :eof
 
 pause
