@@ -3,7 +3,7 @@ import os
 import flet as ft
 
 from harmonizer.core.gui.menu import BaseMenu
-from harmonizer.utils.app import get_app_path, user_so_lib
+from harmonizer.utils.app import get_app_path, use_so_lib
 
 
 class Menu(BaseMenu):
@@ -20,7 +20,8 @@ class Menu(BaseMenu):
             ft.Text("File"),
             [
                 ft.MenuItemButton(
-                    ft.Text("Will be later...")
+                    ft.Text("Add new tuning"),
+                    on_click=self.add_new_tune
                 )
             ],
             width=40
@@ -40,5 +41,10 @@ class Menu(BaseMenu):
         )
 
     def open_qqc(self, _):
-        user_so_lib("qqc")
+        use_so_lib("qqc")
         os.system(f"start {get_app_path() / 'qqc.exe'}")
+
+    def add_new_tune(self, _):
+        use_so_lib("tune")
+        os.system(f"start {get_app_path() / 'tune.exe'}")
+

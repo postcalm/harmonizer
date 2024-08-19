@@ -23,6 +23,13 @@ set BUILD_DIR=build\qqc
 if exist "%BUILD_DIR%" rmdir /s /q %BUILD_DIR%
 call :build_app %MODULE_NAME% qqc %BUILD_DIR%
 
+@rem build qqc app
+
+set MODULE_NAME=tune.py
+set BUILD_DIR=build\tune
+if exist "%BUILD_DIR%" rmdir /s /q %BUILD_DIR%
+call :build_app %MODULE_NAME% tune %BUILD_DIR%
+
 :build_app <module_name> <project_name> <build_dir>
 flet build windows ^
     --module-name %1 ^

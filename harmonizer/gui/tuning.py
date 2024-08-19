@@ -17,6 +17,7 @@ class UITuning(ft.Container):
             options=self._tune_list(),
             value=Tuning.aslist()[0],
             on_change=self._chosen_type,
+            on_click=self._update_tune
         )
 
         self.content = self.tune
@@ -30,3 +31,8 @@ class UITuning(ft.Container):
         return [
             ft.dropdown.Option(tune, tune.replace("_", " ")) for tune in Tuning.aslist()
         ]
+
+    def _update_tune(self, _):
+        Tuning.update()
+        self.tune.options = self._tune_list()
+        self.tune.update()
