@@ -1,39 +1,27 @@
 import flet as ft
 
+from harmonizer.core.app import BaseApp
 from harmonizer.gui.homepage import UIHomepage
+from harmonizer.consts import MAIN_WINDOW_SIZE, USER_DIR
 
 
-class Harmonizer:
+class Harmonizer(BaseApp):
+    window_size = MAIN_WINDOW_SIZE
 
-    def __init__(self, page: ft.Page):
-        self.page = page
-        page.window.center()
-        page.title = "Harmonizer"
-        page.window.frameless = True
-        page.window.shadow = True
-        page.window.resizable = False
+    homepage: UIHomepage
 
-        self._resize(None)
+    def init(self):
+        USER_DIR.mkdir(exist_ok=True)
 
-        self.homepage = UIHomepage(page)
+        self.homepage = UIHomepage(self.page)
 
-        page.on_route_change = self.route_change
-        page.go(page.route)
-
-        page.window.on_resized = self._resize
+        self.page.on_route_change = self.route_change
+        self.page.go(self.page.route)
 
     def route_change(self, _):
         self.page.views.clear()
         self.page.views.append(self.homepage)
         self.page.update()
-
-    def _resize(self, _):
-        self.page.window.width = \
-            self.page.window.min_width = \
-            self.page.window.max_width = 800
-        self.page.window.height = \
-            self.page.window.min_height = \
-            self.page.window.max_height = 470
 
 
 if __name__ == "__main__":
