@@ -1,7 +1,10 @@
+from typing import Any
+
 import flet as ft
 
 
-def get_flet_control(obj: ft.Control, name: str):
+def get_flet_control(obj: ft.Control, name: str) -> Any:
+    """Возвращает элемент управления flet, существующий в приложении"""
     content = getattr(obj.parent, "content", None)
     if not content:
         control = getattr(obj.parent, "controls", None)
