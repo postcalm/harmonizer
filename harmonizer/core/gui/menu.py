@@ -1,15 +1,31 @@
 import flet as ft
 
+from harmonizer.win_size import WindowSize
+
 
 class BaseMenu(ft.Row):
 
-    def __init__(self, width: int, page: ft.Page = None):
+    def __init__(self, size: WindowSize, page: ft.Page = None):
         super().__init__()
         self.page = page
-        self.menu_items = ft.Row([])
-        self.buttons = ft.Row([
-            self.btn_close,
-        ])
+        self.spacing = 0
+        self.height = 40
+        self.width = size.width
+        # ширина каждой строки равна половине ширины окна - 5 пикселей для погрешности
+        self.menu_items = ft.Row(
+            [],
+            width=size.width // 2 - 5,
+            spacing=0,
+            alignment=ft.MainAxisAlignment.START
+        )
+        self.buttons = ft.Row(
+            [
+                self.btn_close,
+            ],
+            width=size.width // 2 - 5,
+            spacing=0,
+            alignment=ft.MainAxisAlignment.END
+        )
         drag_area = ft.WindowDragArea(
             ft.MenuBar(
                 expand=True,
@@ -22,13 +38,12 @@ class BaseMenu(ft.Row):
                         self.menu_items,
                         self.buttons,
                     ],
-                        expand=True,
-                        width=width,
                         alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                     )
                 ]
             ),
-            expand=True
+            expand=True,
+            maximizable=False,
         )
         self.controls = [drag_area]
 
