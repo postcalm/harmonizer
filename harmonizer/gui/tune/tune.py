@@ -3,6 +3,7 @@ import json
 import flet as ft
 
 from harmonizer.core.gui.menu import BaseMenu
+from harmonizer.core.gui.alert import OkAlert
 from harmonizer.types.enums.notes import Notes
 from harmonizer.consts import NEW_TUNE_WINDOW_SIZE, USER_TUNE_FILE, USER_DIR
 
@@ -21,6 +22,7 @@ class UINewTune(ft.Container):
         super().__init__()
         USER_DIR.mkdir(exist_ok=True)
         page.padding = 0
+        self.alert = OkAlert("Oops...", "Please, fill in all fields")
         self.expand = True
 
         self.menu = BaseMenu(NEW_TUNE_WINDOW_SIZE)
@@ -89,10 +91,15 @@ class UINewTune(ft.Container):
             on_click=lambda _: self.page.window.close()
         )
 
-    def save(self, _):
+    def save(self, e: ft.ControlEvent):
         strings = self.strings.content.controls
         notes = [string.value for string in strings]
-        tune = self.tune.value
+        tune = self.tune.value.replace(" ", "_")
+        if not tune or not all(notes):
+            e.control.page.overlay.append(self.alert)
+            self.alert.open = True
+            e.control.page.update()
+            return
         data = {}
         if USER_TUNE_FILE.exists():
             data = json.load(USER_TUNE_FILE.open())

@@ -6,42 +6,6 @@ from harmonizer.consts import TUNING_FILE, USER_TUNE_FILE
 
 
 class _Tuning(Dataclass):
-    # midwest
-    # FACGCE = (
-    #     Notes.E,
-    #     Notes.C,
-    #     Notes.G,
-    #     Notes.C,
-    #     Notes.A,
-    #     Notes.F,
-    # )
-    #
-    # DAEACE = (
-    #     Notes.E,
-    #     Notes.C,
-    #     Notes.A,
-    #     Notes.E,
-    #     Notes.A,
-    #     Notes.D,
-    # )
-
-    # open
-    # Open_C = (
-    #     Notes.E,
-    #     Notes.C,
-    #     Notes.G,
-    #     Notes.C,
-    #     Notes.G,
-    #     Notes.C,
-    # )
-    # Open_D = (
-    #     Notes.D,
-    #     Notes.A,
-    #     Notes.G,
-    #     Notes.D,
-    #     Notes.A,
-    #     Notes.D,
-    # )
 
     def __new__(cls, *args, **kwargs):
         for tune, notes in kwargs.items():
