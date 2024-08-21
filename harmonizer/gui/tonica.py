@@ -15,7 +15,7 @@ class UITonica(ft.Container):
         self.notes = ft.Dropdown(
             label="Tonica",
             options=self._notes_list(),
-            value=Notes.E,
+            value=Notes["E"],  # noqa
             on_change=self._chosen_type
         )
 

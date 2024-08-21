@@ -39,6 +39,25 @@ class UIGuitarNeck(ft.Container):
             strings.append(stack)
         return strings
 
+    def draw_tune(self):
+        self.open_strings.controls.clear()
+        self.open_strings.controls.append(self._draw_open_string())
+        self.neck.controls.clear()
+        self.neck.controls.append(self._draw_tune_string())
+        self.open_strings.update()
+        self.neck.update()
+
+    def paint_note(self, note: ft.Container):
+        tune = self.page.client_storage.get("tune") or Tuning.aslist()[0]
+        tonality = self.page.client_storage.get("tonality") or Tonality.aslist()[0]
+        tonica = self.page.client_storage.get("tonica") or Tuning.asdict().get(tune)[-1]
+        tonality, tier = Tonality.asdict().get(tonality)
+        notes = Notes.get(tonica)
+        notes = [notes[t] for t in tonality]
+        notes = dict(zip(notes, tier))
+        if note.content.value in notes.keys():
+            note.bgcolor = notes.get(note.content.value)
+
     def _note(self, n):
         note = ft.Container(
             ft.Text(n, size=24),
@@ -57,14 +76,6 @@ class UIGuitarNeck(ft.Container):
         self.paint_note(note)
         return note
 
-    def draw_tune(self):
-        self.open_strings.controls.clear()
-        self.open_strings.controls.append(self._draw_open_string())
-        self.neck.controls.clear()
-        self.neck.controls.append(self._draw_tune_string())
-        self.open_strings.update()
-        self.neck.update()
-
     def _draw_open_string(self):
         tune = self.page.client_storage.get("tune") or Tuning.aslist()[0]
         return ft.Column([
@@ -73,14 +84,3 @@ class UIGuitarNeck(ft.Container):
 
     def _draw_tune_string(self):
         return ft.Column(self.strings(), spacing=10)
-
-    def paint_note(self, note: ft.Container):
-        tune = self.page.client_storage.get("tune") or Tuning.aslist()[0]
-        tonality = self.page.client_storage.get("tonality") or Tonality.aslist()[0]
-        tonica = self.page.client_storage.get("tonica") or Tuning.asdict().get(tune)[-1]
-        tonality, tier = Tonality.asdict().get(tonality)
-        notes = Notes.get(tonica)
-        notes = [notes[t] for t in tonality]
-        notes = dict(zip(notes, tier))
-        if note.content.value in notes.keys():
-            note.bgcolor = notes.get(note.content.value)

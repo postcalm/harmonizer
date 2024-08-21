@@ -22,8 +22,11 @@ class UINewTune(ft.Container):
         super().__init__()
         USER_DIR.mkdir(exist_ok=True)
         page.padding = 0
-        self.alert = OkAlert("Oops...", "Please, fill in all fields")
         self.expand = True
+        self.error_alert = OkAlert("Oops...", "Please, fill in all fields.")
+        self.success_alert = OkAlert("Yeah", "Tuning added successfully!")
+
+        self.page.overlay.extend([self.error_alert, self.success_alert])
 
         self.menu = BaseMenu(NEW_TUNE_WINDOW_SIZE)
         self.tune = ft.TextField(
@@ -96,8 +99,7 @@ class UINewTune(ft.Container):
         notes = [string.value for string in strings]
         tune = self.tune.value.replace(" ", "_")
         if not tune or not all(notes):
-            e.control.page.overlay.append(self.alert)
-            self.alert.open = True
+            self.error_alert.open = True
             e.control.page.update()
             return
         data = {}
@@ -105,3 +107,5 @@ class UINewTune(ft.Container):
             data = json.load(USER_TUNE_FILE.open())
         data.update({tune: notes})
         json.dump(data, USER_TUNE_FILE.open("w"), indent=2)
+        self.success_alert.open = True
+        e.control.page.update()

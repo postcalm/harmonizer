@@ -28,8 +28,10 @@ class UITuning(ft.Container):
         neck.draw_tune()
 
     def _tune_list(self):
+        tuning = Tuning.aslist()
+        tuning.sort()
         return [
-            ft.dropdown.Option(tune, tune.replace("_", " ")) for tune in Tuning.aslist()
+            ft.dropdown.Option(tune, tune.replace("_", " ")) for tune in tuning
         ]
 
     def _update_tune(self, _):

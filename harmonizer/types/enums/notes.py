@@ -1,25 +1,28 @@
 from itertools import cycle
+from enum import Enum
 
 
 class Notes:
-    A: str = "A"
-    Bflat: str = "Bb"
-    B: str = "B"
-    C: str = "C"
-    Csharp: str = "C#"
-    D: str = "D"
-    Eflat: str = "Eb"
-    E: str = "E"
-    F: str = "F"
-    Fsharp: str = "F#"
-    G: str = "G"
-    Gsharp: str = "G#"
+
+    class _Notes(str, Enum):
+        A = "A"
+        Bflat = "Bb"
+        B = "B"
+        C = "C"
+        Csharp = "C#"
+        D = "D"
+        Eflat = "Eb"
+        E = "E"
+        F = "F"
+        Fsharp = "F#"
+        G = "G"
+        Gsharp = "G#"
 
     @classmethod
     def get(cls, note: str = None) -> list:
-        note = note or cls.E  # standard E by default
-        notes = cls.__annotations__.keys()
-        notes = [cls.__dict__.get(n) for n in notes]
+        note = note or cls._Notes.E  # standard E by default
+        notes = cls._Notes._member_names_
+        notes = [cls._Notes[n].value for n in notes]
         mark = -1
         new = []
         for n in cycle(notes):
@@ -31,5 +34,5 @@ class Notes:
                 break
         return new
 
-    def __class_getitem__(cls, item):
-        return getattr(cls, item)
+    def __class_getitem__(cls, item) -> str:
+        return cls._Notes(item).name
