@@ -26,7 +26,8 @@ class UIGuitarNeck(ft.Container):
         strings = []
         tune = self.page.client_storage.get("tune") or Tuning.aslist()[0]
         for n in Tuning.asdict().get(tune):
-            notes = Notes.get(n)[1:] + [Notes.get(n)[0]]
+            nn = Notes.get_value(n)
+            notes = Notes.get(nn)[1:] + [Notes.get(nn)[0]]
             stack = ft.Stack([
                 ft.Divider(height=37, color=ft.colors.BLACK),
                 ft.Row(
@@ -50,7 +51,7 @@ class UIGuitarNeck(ft.Container):
     def paint_note(self, note: ft.Container):
         tune = self.page.client_storage.get("tune") or Tuning.aslist()[0]
         tonality = self.page.client_storage.get("tonality") or Tonality.aslist()[0]
-        tonica = self.page.client_storage.get("tonica") or Tuning.asdict().get(tune)[-1]
+        tonica = self.page.client_storage.get("tonica") or Notes.get_value(Tuning.asdict().get(tune)[-1])
         tonality, tier = Tonality.asdict().get(tonality)
         notes = Notes.get(tonica)
         notes = [notes[t] for t in tonality]
@@ -79,7 +80,7 @@ class UIGuitarNeck(ft.Container):
     def _draw_open_string(self):
         tune = self.page.client_storage.get("tune") or Tuning.aslist()[0]
         return ft.Column([
-            self._note(n) for n in Tuning.asdict().get(tune)
+            self._note(Notes.get_value(n)) for n in Tuning.asdict().get(tune)
         ])
 
     def _draw_tune_string(self):

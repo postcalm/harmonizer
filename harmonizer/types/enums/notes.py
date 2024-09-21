@@ -34,5 +34,9 @@ class Notes:
                 break
         return new
 
+    @classmethod
+    def get_value(cls, name: str) -> str:
+        return cls._Notes[name].value
+
     def __class_getitem__(cls, item) -> str:
         return cls._Notes(item).name
