@@ -26,7 +26,7 @@ class UINewTune(ft.Container):
         self.error_alert = OkAlert("Oops...", "Please, fill in all fields.")
         self.success_alert = OkAlert("Yeah", "Tuning added successfully!")
 
-        self.page.overlay.extend([self.error_alert, self.success_alert])
+        page.overlay.extend([self.error_alert, self.success_alert])
 
         self.menu = BaseMenu(NEW_TUNE_WINDOW_SIZE)
         self.tune = ft.TextField(
