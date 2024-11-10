@@ -1,12 +1,12 @@
 import flet as ft
 
-from harmonizer.win_size import WindowSize
+from harmonizer.core.size import FrameSize
 
 
 class BaseApp:
     """Базовый класс для создания окна приложения"""
 
-    window_size: WindowSize
+    window_size: FrameSize
 
     def __init__(self, page: ft.Page):
         self.page = page

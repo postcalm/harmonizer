@@ -1,19 +1,19 @@
 import flet as ft
 
 from harmonizer.core.app import BaseApp
-from harmonizer.gui.homepage import UIHomepage
-from harmonizer.consts import MAIN_WINDOW_SIZE, USER_DIR
+from harmonizer.gui.homepage import Homepage
+from harmonizer.consts import MAIN_WINDOW_SIZE, STORAGE_DIR
 
 
 class Harmonizer(BaseApp):
     window_size = MAIN_WINDOW_SIZE
 
-    homepage: UIHomepage
+    homepage: Homepage
 
     def init(self):
-        USER_DIR.mkdir(exist_ok=True)
+        STORAGE_DIR.mkdir(exist_ok=True)
 
-        self.homepage = UIHomepage(self.page)
+        self.homepage = Homepage(self.page)
 
         self.page.on_route_change = self.route_change
         self.page.go(self.page.route)

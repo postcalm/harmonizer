@@ -1,5 +1,5 @@
-from harmonizer.types.dataclasses import Dataclass
-from harmonizer.types.enums.tier import Triplet
+from harmonizer.core.types.dataclasses import Dataclass
+from harmonizer.core.types.enums.tier import Triplet
 
 
 class Tonality(Dataclass):
