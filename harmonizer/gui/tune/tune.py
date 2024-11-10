@@ -4,8 +4,8 @@ import flet as ft
 
 from harmonizer.core.gui.menu import BaseMenu
 from harmonizer.core.gui.alert import OkAlert
-from harmonizer.types.enums.notes import Notes
-from harmonizer.consts import NEW_TUNE_WINDOW_SIZE, USER_TUNE_FILE, USER_DIR
+from harmonizer.consts import NEW_TUNE_WINDOW_SIZE, USER_TUNE_FILE, STORAGE_DIR
+from harmonizer.core.types.enums.notes import Notes
 
 
 class UINewTune(ft.Container):
@@ -20,7 +20,7 @@ class UINewTune(ft.Container):
 
     def __init__(self, page: ft.Page):
         super().__init__()
-        USER_DIR.mkdir(exist_ok=True)
+        STORAGE_DIR.mkdir(exist_ok=True)
         page.padding = 0
         self.expand = True
         self.error_alert = OkAlert("Oops...", "Please, fill in all fields.")

@@ -1,7 +1,7 @@
 import json
 
-from harmonizer.types.enums.notes import Notes
-from harmonizer.types.dataclasses import Dataclass
+from harmonizer.core.types.enums.notes import Notes
+from harmonizer.core.types.dataclasses import Dataclass
 from harmonizer.consts import TUNING_FILE, USER_TUNE_FILE
 
 

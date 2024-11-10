@@ -1,32 +1,44 @@
 import flet as ft
 
-from harmonizer.gui.tuning import UITuning
-from harmonizer.gui.guitar_neck import UIGuitarNeck
-from harmonizer.gui.tonality import UITonality
-from harmonizer.gui.tonica import UITonica
-from harmonizer.gui.menu_bar import Menu
+from harmonizer.core.controllers.control import ControlController
+from harmonizer.core.controllers.guitar import GuitarController
+from harmonizer.core.controllers.tonality import TonalityController
+from harmonizer.core.controllers.tonica import TonicaController
+from harmonizer.core.controllers.tune import TuneController
+from harmonizer.core.gui.menu_bar import Menu
 from harmonizer.consts import MAIN_WINDOW_SIZE
 
 
-class UIHomepage(ft.View):
+class Homepage(ft.View):
+    """Домашняя страница"""
 
     def __init__(self, page: ft.Page):
         super().__init__()
         self.route = "/"
         self.padding = 0
-        page.client_storage.clear()
+
+        control = ControlController()
 
         self.menu = Menu(MAIN_WINDOW_SIZE, page)
-        self.tuning = UITuning(page)
-        self.guitar_neck = UIGuitarNeck(page)
-        self.tonality = UITonality(page)
-        self.tonica = UITonica(page)
+        self.tuning = TuneController(page)
+        self.instrument = GuitarController(page)
+        self.tonality = TonalityController(page)
+        self.tonica = TonicaController(page)
+
+        control.add("tune", self.tuning)
+        control.add("tonica", self.tonica)
+        control.add("tonality", self.tonality)
+        control.add("instrument", self.instrument)
 
         self.controls = [
             self.menu,
             ft.Container(
-                ft.Row([self.tuning, self.tonality, self.tonica]),
+                ft.Row([
+                    self.tuning.viewer,
+                    self.tonality.viewer,
+                    self.tonica.viewer,
+                ]),
                 padding=ft.Padding(20, 10, 20, 0)
             ),
-            self.guitar_neck,
+            self.instrument.viewer,
         ]

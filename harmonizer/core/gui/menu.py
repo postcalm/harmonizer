@@ -1,11 +1,11 @@
 import flet as ft
 
-from harmonizer.win_size import WindowSize
+from harmonizer.core.size import FrameSize
 
 
 class BaseMenu(ft.Row):
 
-    def __init__(self, size: WindowSize, page: ft.Page = None):
+    def __init__(self, size: FrameSize, page: ft.Page = None):
         super().__init__()
         self.page = page
         self.spacing = 0
