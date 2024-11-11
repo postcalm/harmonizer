@@ -37,9 +37,9 @@ class Note(ft.Container):
         self.paint()
 
     def paint(self) -> None:
-        tune = Session().tune or Tuning.aslist()[0]
+        tune = Session().tune or Tuning().first()
         tonality = Session().tonality or Tonality.aslist()[0]
-        tonica = Session().tonica or Notes.get_value(Tuning.asdict().get(tune)[-1])
+        tonica = Session().tonica or Notes.get_pretty(Tuning().get(tune).last())
         tonality, tier = Tonality.asdict().get(tonality)
         notes = Notes.get(tonica)
         notes = [notes[t] for t in tonality]

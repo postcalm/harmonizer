@@ -16,7 +16,8 @@ class TonicaViewer(SettingsViewer):
         self.set_content(
             ft.Dropdown,
             self._notes_list(),
-            value=Notes["E"],  # noqa
+            label="Tonica",
+            value=Notes.get_name("E"),
             on_change=self._chosen_type,
         )
 

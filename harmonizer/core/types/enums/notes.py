@@ -20,6 +20,11 @@ class Notes:
 
     @classmethod
     def get(cls, note: str = None) -> list:
+        """
+        Возвращает последовательность нот от указанной ноты
+
+        :param note: Нота, от которой строится последовательность
+        """
         note = note or cls._Notes.E  # standard E by default
         notes = cls._Notes._member_names_
         notes = [cls._Notes[n].value for n in notes]
@@ -35,8 +40,19 @@ class Notes:
         return new
 
     @classmethod
-    def get_value(cls, name: str) -> str:
+    def get_pretty(cls, name: str) -> str:
+        """
+        Возвращает интерпретированное имя ноты по фактическому имени
+
+        :param name: Нота
+        """
         return cls._Notes[name].value
 
-    def __class_getitem__(cls, item) -> str:
-        return cls._Notes(item).name
+    @classmethod
+    def get_name(cls, name: str) -> str:
+        """
+        Возвращает фактическое имя ноты по интерпретированному имени
+
+        :param name: Нота
+        """
+        return cls._Notes(name).name

@@ -1,4 +1,4 @@
-import json
+import re
 
 import flet as ft
 
@@ -6,6 +6,7 @@ from harmonizer.core.gui.menu import BaseMenu
 from harmonizer.core.gui.alert import OkAlert
 from harmonizer.consts import NEW_TUNE_WINDOW_SIZE, USER_TUNE_FILE, STORAGE_DIR
 from harmonizer.core.types.enums.notes import Notes
+from harmonizer.utils.filesys import update_json
 
 
 class UINewTune(ft.Container):
@@ -97,15 +98,21 @@ class UINewTune(ft.Container):
     def save(self, e: ft.ControlEvent):
         strings = self.strings.content.controls
         notes = [string.value for string in strings]
-        tune = self.tune.value.replace(" ", "_")
+        tune = self.tune.value
         if not tune or not all(notes):
             self.error_alert.open = True
             e.control.page.update()
             return
-        data = {}
-        if USER_TUNE_FILE.exists():
-            data = json.load(USER_TUNE_FILE.open())
-        data.update({tune: notes})
-        json.dump(data, USER_TUNE_FILE.open("w"), indent=2)
+        update_json(USER_TUNE_FILE, self._save_templ(tune, notes))
         self.success_alert.open = True
         e.control.page.update()
+
+    def _save_templ(self, tune: str, notes: list[str]):
+        tid = re.sub(r"[\s\.\\/-]", "_", tune).lower()
+        return {
+            tid: {
+                "id": tid,
+                "name": tune,
+                "notes": notes
+            }
+        }

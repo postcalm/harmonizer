@@ -16,7 +16,7 @@ class TuneViewer(SettingsViewer):
         self.set_content(
             ft.Dropdown,
             self._tune_list(),
-            value=Tuning.aslist()[0],
+            value=Tuning().first(),
             label="Guitar tune",
             on_change=self._chosen_type,
             on_click=self._update_tune,
@@ -27,13 +27,13 @@ class TuneViewer(SettingsViewer):
         ControlController().get("instrument").run()
 
     def _tune_list(self):
-        tuning = Tuning.aslist()
-        tuning.sort()
+        tuning = Tuning().all()
+        tuning.sort(key=lambda tune: tune.name)
         return [
-            ft.dropdown.Option(tune, tune.replace("_", " ")) for tune in tuning
+            ft.dropdown.Option(tune.id, tune.name) for tune in tuning
         ]
 
     def _update_tune(self, _) -> None:
-        Tuning.update()
+        Tuning().update()
         self.content.options = self._tune_list()
         self.content.update()

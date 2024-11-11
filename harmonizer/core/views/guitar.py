@@ -42,12 +42,12 @@ class GuitarViewer(InstrumentViewer):
 
     def _strings(self):
         strings = []
-        tune = Session().tune or Tuning.aslist()[0]
-        for n in Tuning.asdict().get(tune):
-            nn = Notes.get_value(n)
+        tune = Session().tune or Tuning().first()
+        for n in Tuning().get(tune).notes:
+            nn = Notes.get_pretty(n)
             notes = Notes.get(nn)[1:] + [Notes.get(nn)[0]]
             stack = ft.Stack([
-                ft.Divider(height=37, color=ft.colors.BLACK),
+                ft.Divider(height=self.note_size.height, color=ft.colors.BLACK),
                 ft.Row(
                     [Note(n, self.note_size) for n in notes],
                     spacing=20,
@@ -59,9 +59,9 @@ class GuitarViewer(InstrumentViewer):
         return strings
 
     def _open_strings(self) -> ft.Column:
-        tune = Session().tune or Tuning.aslist()[0]
+        tune = Session().tune or Tuning().first()
         return ft.Column([
-            Note(Notes.get_value(n), self.note_size) for n in Tuning.asdict().get(tune)
+            Note(Notes.get_pretty(n), self.note_size) for n in Tuning().get(tune).notes
         ])
 
     def _tune_string(self) -> ft.Column:

@@ -1,6 +1,7 @@
 import flet as ft
 
 from harmonizer.core.app import BaseApp
+from harmonizer.core.types.dataclasses.tuning import Tuning
 from harmonizer.gui.homepage import Homepage
 from harmonizer.consts import MAIN_WINDOW_SIZE, STORAGE_DIR
 
@@ -14,6 +15,8 @@ class Harmonizer(BaseApp):
         STORAGE_DIR.mkdir(exist_ok=True)
 
         self.homepage = Homepage(self.page)
+
+        self.page.window.on_event = lambda _: Tuning().update()
 
         self.page.on_route_change = self.route_change
         self.page.go(self.page.route)

@@ -1,1 +1,0 @@
-from .qqc import UIQQC
