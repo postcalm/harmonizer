@@ -12,6 +12,8 @@ class TonicaViewer(SettingsViewer):
 
     size = FrameSize(width=150)
 
+    content: ft.Dropdown
+
     def init(self) -> None:
         self.set_content(
             ft.Dropdown,
@@ -27,5 +29,9 @@ class TonicaViewer(SettingsViewer):
 
     def _notes_list(self):
         return [
-            ft.dropdown.Option(note) for note in Notes.get("A")
+            ft.dropdown.Option(note) for note in Notes.get("C")
         ]
+
+    def draw(self, *args, **kwargs) -> None:
+        self.content.value = Session().tonica
+        self.content.update()

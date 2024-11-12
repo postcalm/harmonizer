@@ -24,7 +24,9 @@ class TuneViewer(SettingsViewer):
 
     def _chosen_type(self, e: ft.ControlEvent):
         Session().tune = e.data
+        Session().tonica = Tuning().get(e.data).last()
         ControlController().get("instrument").run()
+        ControlController().get("tonica").run()
 
     def _tune_list(self):
         tuning = Tuning().all()

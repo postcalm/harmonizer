@@ -70,7 +70,7 @@ class UINewTune(ft.Container):
 
     def _notes_list(self):
         return [
-            ft.dropdown.Option(note) for note in Notes.get("A")
+            ft.dropdown.Option(note) for note in Notes.get("C")
         ]
 
     def _string(self, number: str):
