@@ -21,3 +21,4 @@ NEW_TUNE_WINDOW_SIZE = FrameSize(600, 500)
 # -- CONFIGS --
 TUNING_FILE = CONFIG_DIR / "tuning.json"
 USER_TUNE_FILE = STORAGE_DIR / "tuning.json"
+TONALITY_CONFIG = CONFIG_DIR / "tonality.json"

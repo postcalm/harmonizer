@@ -2,8 +2,8 @@ import flet as ft
 
 from harmonizer.core.session import Session
 from harmonizer.core.size import FrameSize
-from harmonizer.core.types.dataclasses.tonality import Tonality
-from harmonizer.core.types.dataclasses.tuning import Tuning
+from harmonizer.core.models.tonality import Tonalities
+from harmonizer.core.models.tuning import Tuning
 from harmonizer.core.types.enums.notes import Notes
 
 
@@ -38,11 +38,11 @@ class Note(ft.Container):
 
     def paint(self) -> None:
         tune = Session().tune or Tuning().first()
-        tonality = Session().tonality or Tonality.aslist()[0]
+        tonality = Session().tonality or Tonalities().first()
         tonica = Session().tonica or Notes.get_pretty(Tuning().get(tune).last())
-        tonality, tier = Tonality.asdict().get(tonality)
+        tonality = Tonalities().get(tonality)
         notes = Notes.get(tonica)
-        notes = [notes[t] for t in tonality]
-        notes = dict(zip(notes, tier))
+        notes = [notes[t] for t in tonality.sequence]
+        notes = dict(zip(notes, tonality.colored))
         if self.content.value in notes.keys():
-            self.bgcolor = notes.get(self.content.value)
+            self.bgcolor = notes.get(self.content.value).value

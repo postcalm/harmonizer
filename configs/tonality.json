@@ -1,0 +1,44 @@
+{
+  "major": {
+    "name": "Major",
+    "sequence": [
+      0,
+      2,
+      4,
+      5,
+      7,
+      9,
+      11
+    ],
+    "colored": [
+      "major",
+      "minor",
+      "minor",
+      "major",
+      "major",
+      "minor",
+      "dim"
+    ]
+  },
+  "minor": {
+    "name": "Minor",
+    "sequence": [
+      0,
+      2,
+      3,
+      5,
+      7,
+      8,
+      10
+    ],
+    "colored": [
+      "minor",
+      "dim",
+      "major",
+      "minor",
+      "minor",
+      "major",
+      "major"
+    ]
+  }
+}

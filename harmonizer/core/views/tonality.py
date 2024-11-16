@@ -3,7 +3,7 @@ import flet as ft
 from harmonizer.core.controllers.control import ControlController
 from harmonizer.core.session import Session
 from harmonizer.core.size import FrameSize
-from harmonizer.core.types.dataclasses.tonality import Tonality
+from harmonizer.core.models.tonality import Tonalities
 from harmonizer.core.views import SettingsViewer
 
 
@@ -17,7 +17,7 @@ class TonalityViewer(SettingsViewer):
             ft.Dropdown,
             self._ton_list(),
             label="Tonality",
-            value=Tonality.aslist()[0],
+            value=Tonalities().first(),
             on_change=self._chosen_type,
         )
 
@@ -27,5 +27,5 @@ class TonalityViewer(SettingsViewer):
 
     def _ton_list(self):
         return [
-            ft.dropdown.Option(ton, ton.replace("_", " ")) for ton in Tonality.aslist()
+            ft.dropdown.Option(ton.name.lower(), ton.name) for ton in Tonalities().all()
         ]

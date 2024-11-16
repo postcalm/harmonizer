@@ -3,7 +3,7 @@ import flet as ft
 from harmonizer.core.controllers.control import ControlController
 from harmonizer.core.session import Session
 from harmonizer.core.size import FrameSize
-from harmonizer.core.types.dataclasses.tuning import Tuning
+from harmonizer.core.models.tuning import Tuning
 from harmonizer.core.views import SettingsViewer
 
 

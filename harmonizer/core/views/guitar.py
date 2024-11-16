@@ -3,7 +3,7 @@ import flet as ft
 from harmonizer.core.gui.note import Note
 from harmonizer.core.session import Session
 from harmonizer.core.size import FrameSize
-from harmonizer.core.types.dataclasses.tuning import Tuning
+from harmonizer.core.models.tuning import Tuning
 from harmonizer.core.types.enums.notes import Notes
 from harmonizer.core.views import InstrumentViewer
 
