@@ -1,7 +1,7 @@
 import flet as ft
 
 from harmonizer.core.app import BaseApp
-from harmonizer.core.types.dataclasses.tuning import Tuning
+from harmonizer.core.models.tuning import Tuning
 from harmonizer.gui.homepage import Homepage
 from harmonizer.consts import MAIN_WINDOW_SIZE, STORAGE_DIR
 

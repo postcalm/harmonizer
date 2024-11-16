@@ -1,21 +1,20 @@
-from enum import IntEnum, auto
+from enum import IntEnum, Enum, auto
 
 import flet as ft
 
 
-class Functions:
+class Functions(str, Enum):
     TONIC = ft.colors.GREEN_400
     SUBDOMINANT = ft.colors.YELLOW_400
     DOMINANT = ft.colors.PINK_400
 
 
-class Triplet:
+class Triplet(str, Enum):
     MAJOR = ft.colors.PINK_400
     MINOR = ft.colors.LIGHT_BLUE_400
     DIM = ft.colors.LIGHT_GREEN_400
 
 
-# noinspection PyArgumentList
 class Tier(IntEnum):
     PRIMA = auto()
     SECOND = auto()
