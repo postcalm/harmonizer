@@ -4,6 +4,7 @@ from harmonizer.core.controllers.control import ControlController
 from harmonizer.core.session import Session
 from harmonizer.core.size import FrameSize
 from harmonizer.core.models.tuning import Tuning
+from harmonizer.core.types.enums.notes import Notes
 from harmonizer.core.views import SettingsViewer
 
 
@@ -24,7 +25,7 @@ class TuneViewer(SettingsViewer):
 
     def _chosen_type(self, e: ft.ControlEvent):
         Session().tune = e.data
-        Session().tonica = Tuning().get(e.data).last()
+        Session().tonica = Notes.get_pretty(Tuning().get(e.data).last())
         ControlController().get("instrument").run()
         ControlController().get("tonica").run()
 

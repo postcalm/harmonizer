@@ -10,3 +10,6 @@ class Session(metaclass=Singleton):
     tonality: str = None
     # Тоника
     tonica: str = None
+
+    def __repr__(self):
+        return repr(self.__dict__.items())
