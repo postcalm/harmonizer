@@ -1,5 +1,6 @@
 @echo off
 
+set ROOT_DIR=%~dp0
 set PROJECT_NAME=harmonizer
 set MODULE_NAME=
 set BUILD_DIR=
@@ -30,6 +31,8 @@ set BUILD_DIR=build\tune
 if exist "%BUILD_DIR%" rmdir /s /q %BUILD_DIR%
 call :build_app %MODULE_NAME% tune %BUILD_DIR%
 
+call :zip
+
 :build_app <module_name> <project_name> <build_dir>
 flet build windows ^
     --module-name %1 ^
@@ -41,6 +44,13 @@ flet build windows ^
 xcopy "%3\*.*" "%RESULT_DIR%\" /s /q /y
 copy "%3\data\app.so" "%RESULT_DIR%\data\%2.so"
 
+goto :eof
+
+:zip
+pushd "build"
+del %PROJECT_NAME%.7z
+7z a -mx5 -mmt=6 -xr@%ROOT_DIR%\exclude.txt %PROJECT_NAME%.7z %PROJECT_NAME%
+popd
 goto :eof
 
 pause
