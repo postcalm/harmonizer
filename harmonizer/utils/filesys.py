@@ -20,6 +20,8 @@ def load_json(path: Path) -> dict:
     :param path: Путь до конфига
     :return: Содержимое конфига
     """
+    if not path.exists():
+        return {}
     return json.load(path.open())
 
 
