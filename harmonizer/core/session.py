@@ -1,5 +1,5 @@
 from harmonizer.core import Singleton
-from harmonizer.core.types.enums.tier import Triplet
+from harmonizer.core.models.harmony import Harmony
 
 
 class Session(metaclass=Singleton):
@@ -12,7 +12,7 @@ class Session(metaclass=Singleton):
     # Тоника
     tonica: str = None
     # Текущая гармония
-    harmony: dict[str, Triplet] = None
+    harmony: Harmony = None
 
     def __repr__(self):
         return repr(self.__dict__.items())

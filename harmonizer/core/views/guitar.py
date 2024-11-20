@@ -1,9 +1,9 @@
 import flet as ft
 
 from harmonizer.core.gui.note import Note
-from harmonizer.core.models.tonality import Tonalities
 from harmonizer.core.session import Session
 from harmonizer.core.size import FrameSize
+from harmonizer.core.models.harmony import Harmony
 from harmonizer.core.models.tuning import Tuning
 from harmonizer.core.types.enums.notes import Notes
 from harmonizer.core.views import InstrumentViewer
@@ -20,7 +20,7 @@ class GuitarViewer(InstrumentViewer):
     neck: ft.Column
 
     def init(self) -> None:
-        Session().harmony = set_harmony()
+        Session().harmony = Harmony()
         self.open_strings = self._open_strings()
         self.neck = self._tune_string()
 
@@ -35,7 +35,7 @@ class GuitarViewer(InstrumentViewer):
         )
 
     def draw(self) -> None:
-        Session().harmony = set_harmony()
+        Session().harmony = Harmony()
         self.open_strings.controls.clear()
         self.open_strings.controls.append(self._open_strings())
         self.neck.controls.clear()
@@ -69,13 +69,3 @@ class GuitarViewer(InstrumentViewer):
 
     def _tune_string(self) -> ft.Column:
         return ft.Column(self._strings(), spacing=10)
-
-
-def set_harmony():
-    tune = Session().tune or Tuning().first()
-    tonality = Session().tonality or Tonalities().first()
-    tonica = Session().tonica or Notes.get_pretty(Tuning().get(tune).last())
-    tonality = Tonalities().get(tonality)
-    notes = Notes.get(tonica)
-    notes = [notes[t] for t in tonality.sequence]
-    return dict(zip(notes, tonality.colored))

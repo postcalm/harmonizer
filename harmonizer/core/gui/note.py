@@ -7,6 +7,8 @@ from harmonizer.core.size import FrameSize
 class Note(ft.Container):
     """Нота"""
 
+    content: ft.Text
+
     def __init__(
             self,
             note: str,
@@ -35,5 +37,5 @@ class Note(ft.Container):
 
     def paint(self) -> None:
         harmony = Session().harmony
-        if self.content.value in harmony.keys():
-            self.bgcolor = harmony.get(self.content.value).value
+        if self.content.value in harmony.notes:
+            self.bgcolor = harmony.get_color(self.content.value)
