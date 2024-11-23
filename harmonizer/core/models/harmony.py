@@ -1,6 +1,6 @@
+from harmonizer import core
 from harmonizer.core.models.tonality import Tonalities
 from harmonizer.core.models.tuning import Tuning
-from harmonizer.core.session import Session
 from harmonizer.core.types.enums.notes import Notes
 
 
@@ -30,24 +30,26 @@ class Harmony:
         """
         self.tune = (
                 tune or
-                Session().tune or
+                core.session.Session().tune or
                 Tuning().first()
         )
         self.tonality = (
                 tonality or
-                Session().tonality or
+                core.session.Session().tonality or
                 Tonalities().first()
         )
         self.tonica = (
                 tonica or
-                Session().tonica or
+                core.session.Session().tonica or
                 Notes.get_pretty(Tuning().get(self.tune).last())
         )
 
         tonality = Tonalities().get(self.tonality)
         notes = Notes.get(self.tonica)
         notes = [notes[t] for t in tonality.sequence]
-        self._harmony = dict(zip(notes, tonality.colored))
+        self._harmony = {}
+        for n, c, t in zip(notes, tonality.colored, tonality.tone):
+            self._harmony[n] = {"color": c, "tone": t}
 
     @property
     def notes(self):
@@ -63,4 +65,13 @@ class Harmony:
         :param note: Нота
         :return: Цвет ноты
         """
-        return self._harmony.get(note).value
+        return str(self._harmony.get(note).get("color").value)
+
+    def get_tone(self, note: str) -> str:
+        """
+        Возвращает тон (настроение) ноты
+
+        :param note: Нота
+        :return: Тон
+        """
+        return str(self._harmony.get(note).get("tone").value)

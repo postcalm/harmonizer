@@ -19,7 +19,7 @@ class Notes:
         Gsharp = "G#"
 
     @classmethod
-    def get(cls, note: str = None) -> list:
+    def get(cls, note: str = None) -> list[str]:
         """
         Возвращает последовательность нот от указанной ноты
 

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from harmonizer.consts import TONALITY_CONFIG
 from harmonizer.core import Singleton
-from harmonizer.core.types.enums.tier import Triplet
+from harmonizer.core.types.enums.tier import ColorTriplet, Tone
 from harmonizer.utils.filesys import load_json
 
 
@@ -12,11 +12,16 @@ class Tonality:
     Модель тональности
     """
     name: str
-    sequence: list[int, ...]
-    colored: list[str, ...]
+    sequence: list[int]
+    colors: list[str]
 
-    def __post_init__(self):
-        self.colored = [Triplet[c.upper()] for c in self.colored]  # noqa
+    @property
+    def colored(self) -> list[type[ColorTriplet]]:
+        return [ColorTriplet[c.upper()] for c in self.colors]
+
+    @property
+    def tone(self) -> list[Tone]:
+        return [Tone(c) for c in self.colors]
 
 
 class Tonalities(metaclass=Singleton):

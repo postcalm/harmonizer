@@ -1,19 +1,8 @@
-from enum import Enum
-
-from harmonizer.core.gui.note import get_harmony
-from harmonizer.core.models.tuning import Tuning
+from harmonizer.core.chords.types import ChordTypes
+from harmonizer.core.models.harmony import Harmony
 from harmonizer.core.session import Session
-
-
-class ChordTypes(Enum):
-    """
-    Типы аккордов
-    """
-    TRIAD = (1, 3, 5)
-    POWER = (1, 5)
-    SUS2 = (1, 2, 5)
-    SUS4 = (1, 4, 5)
-    SEPTACORD = (1, 3, 5, 7)
+from harmonizer.core.types.enums.notes import Notes
+from harmonizer.core.types.enums.tier import Tone
 
 
 class Chord:
@@ -21,14 +10,22 @@ class Chord:
     Модель аккорда
     """
 
-    harmony: list[str]
+    stage: int
+    harmony: Harmony
 
-    def __init__(self):
-        self.harmony = list(Session().harmony.keys())
+    def __init__(self, stage: int = 1):
+        assert 1 <= stage <= 7
+        self.stage = stage - 1
+        self.harmony = Session().harmony
+        self.notes = Session().harmony.notes
+        self.tone = self.harmony.get_tone(self.notes[self.stage])
 
     @property
     def triad(self) -> list[str]:
-        return self._get_chord(ChordTypes.TRIAD)
+        if self.tone == Tone.MAJOR:
+            return self._get_chord(ChordTypes.MAJ_TRIAD)
+        if self.tone == Tone.MINOR:
+            return self._get_chord(ChordTypes.MIN_TRIAD)
 
     @property
     def sus2(self) -> list[str]:
@@ -44,7 +41,17 @@ class Chord:
 
     @property
     def septacord(self) -> list[str]:
-        return self._get_chord(ChordTypes.SEPTACORD)
+        if self.tone == Tone.MAJOR:
+            return self._get_chord(ChordTypes.MAJ_SEPT)
+        if self.tone == Tone.MINOR:
+            return self._get_chord(ChordTypes.MIN_SEPT)
 
     def _get_chord(self, chord_type: ChordTypes) -> list[str]:
-        return [self.harmony[n - 1] for n in chord_type.value]
+        harmony = Notes.get(self.notes[self.stage])
+        notes = []
+        intervals = chord_type.value
+        sum_ = 0
+        for n in intervals:
+            sum_ += n
+            notes.append(harmony[sum_])
+        return notes

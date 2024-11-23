@@ -9,7 +9,16 @@ class Functions(str, Enum):
     DOMINANT = ft.colors.PINK_400
 
 
-class Triplet(str, Enum):
+class Tone(str, Enum):
+    """
+    Окрас ноты
+    """
+    MAJOR = "major"
+    MINOR = "minor"
+    DIM = "dim"
+
+
+class ColorTriplet(str, Enum):
     MAJOR = ft.colors.PINK_400
     MINOR = ft.colors.LIGHT_BLUE_400
     DIM = ft.colors.LIGHT_GREEN_400
