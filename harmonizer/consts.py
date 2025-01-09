@@ -12,7 +12,7 @@ STORAGE_DIR = Path("~").expanduser() / f".{PROJECT_NAME}"
 TMP_DIR = STORAGE_DIR / ".tmp"
 
 # -- WINDOW SIZE --
-MAIN_WINDOW_SIZE = FrameSize(800, 470)
+MAIN_WINDOW_SIZE = FrameSize(800, 500)
 
 QQC_WINDOW_SIZE = FrameSize(600, 600)
 

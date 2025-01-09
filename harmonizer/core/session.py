@@ -13,6 +13,10 @@ class Session(metaclass=Singleton):
     tonica: str = None
     # Текущая гармония
     harmony: Harmony = None
+    # Выбранная ступень гармонии
+    stage: int = None
+    # Выбранный аккорд
+    chord: str = None
 
     def __repr__(self):
         return repr(self.__dict__.items())

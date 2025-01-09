@@ -1,5 +1,6 @@
 import flet as ft
 
+from harmonizer.core.chords.model import Chord
 from harmonizer.core.session import Session
 from harmonizer.core.size import FrameSize
 
@@ -27,15 +28,36 @@ class Note(ft.Container):
         self.height = size.height
         self.bgcolor = ft.colors.GREY_300
         self.shape = shape
-        self.shadow = ft.BoxShadow(
+        self.shadow = [ft.BoxShadow(
             blur_radius=5,
             color=ft.colors.BLACK,
             offset=ft.Offset(4, -3),
             blur_style=ft.ShadowBlurStyle.NORMAL,
-        )
+        )]
         self.paint()
 
     def paint(self) -> None:
         harmony = Session().harmony
         if self.content.value in harmony.notes:
             self.bgcolor = harmony.get_color(self.content.value)
+
+            # self.shadow.append(
+            #     ft.BoxShadow(
+            #         blur_radius=4,
+            #         spread_radius=6,
+            #         color="#F19CBB",
+            #         blur_style=ft.ShadowBlurStyle.NORMAL,
+            #     )
+            # )
+
+            if Session().stage and Session().chord:
+                chord = Chord(Session().stage).get_chord(Session().chord)
+                if self.content.value in chord:
+                    self.shadow.append(
+                        ft.BoxShadow(
+                            blur_radius=2,
+                            spread_radius=4,
+                            color="#F19CBB",
+                            blur_style=ft.ShadowBlurStyle.NORMAL,
+                        )
+                    )

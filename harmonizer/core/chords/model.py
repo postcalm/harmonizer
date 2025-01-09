@@ -40,11 +40,25 @@ class Chord:
         return self._get_chord(ChordTypes.POWER)
 
     @property
-    def septacord(self) -> list[str]:
+    def sept(self) -> list[str]:
         if self.tone == Tone.MAJOR:
             return self._get_chord(ChordTypes.MAJ_SEPT)
         if self.tone == Tone.MINOR:
             return self._get_chord(ChordTypes.MIN_SEPT)
+
+    def get_chord(self, name: str) -> list[str]:
+        assert getattr(self, name, None)
+        return getattr(self, name)
+
+    @classmethod
+    def all(cls) -> list[str]:
+        return [
+            "triad",
+            "sus2",
+            "sus4",
+            "power",
+            "sept",
+        ]
 
     def _get_chord(self, chord_type: ChordTypes) -> list[str]:
         harmony = Notes.get(self.notes[self.stage])

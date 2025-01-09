@@ -1,5 +1,6 @@
 import flet as ft
 
+from harmonizer.core.controllers.chords import ChordsController
 from harmonizer.core.controllers.control import ControlController
 from harmonizer.core.controllers.guitar import GuitarController
 from harmonizer.core.controllers.tonality import TonalityController
@@ -24,6 +25,7 @@ class Homepage(ft.View):
         self.instrument = GuitarController(page)
         self.tonality = TonalityController(page)
         self.tonica = TonicaController(page)
+        self.chords = ChordsController(page)
 
         control.add("tune", self.tuning)
         control.add("tonica", self.tonica)
@@ -41,4 +43,5 @@ class Homepage(ft.View):
                 padding=ft.Padding(20, 10, 20, 0)
             ),
             self.instrument.viewer,
+            self.chords.viewer,
         ]
