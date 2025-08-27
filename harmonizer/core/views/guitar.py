@@ -1,6 +1,7 @@
 import flet as ft
 
 from harmonizer.core.gui.note import Note
+from harmonizer.core.models.matrix import StringMatrix
 from harmonizer.core.session import Session
 from harmonizer.core.size import FrameSize
 from harmonizer.core.models.harmony import Harmony
@@ -19,8 +20,12 @@ class GuitarViewer(InstrumentViewer):
     open_strings: ft.Column
     neck: ft.Column
 
+    _matrix: StringMatrix
+
     def init(self) -> None:
         Session().harmony = Harmony()
+        tune = Session().tune or Tuning().first()
+        self._matrix = StringMatrix(tune)
         self.open_strings = self._open_strings()
         self.neck = self._tune_string()
 
@@ -45,14 +50,11 @@ class GuitarViewer(InstrumentViewer):
 
     def _strings(self):
         strings = []
-        tune = Session().tune or Tuning().first()
-        for n in Tuning().get(tune).notes:
-            nn = Notes.get_pretty(n)
-            notes = Notes.get(nn)[1:] + [Notes.get(nn)[0]]
+        for line in self._matrix:
             stack = ft.Stack([
                 ft.Divider(height=self.note_size.height, color=ft.colors.BLACK),
                 ft.Row(
-                    [Note(n, self.note_size) for n in notes],
+                    [Note(n, self.note_size) for n in line[1:]],
                     spacing=20,
                 ),
             ],
@@ -62,9 +64,9 @@ class GuitarViewer(InstrumentViewer):
         return strings
 
     def _open_strings(self) -> ft.Column:
-        tune = Session().tune or Tuning().first()
+        open_string = self._matrix.get_transposed()[0]
         return ft.Column([
-            Note(Notes.get_pretty(n), self.note_size) for n in Tuning().get(tune).notes
+            Note(Notes.get_pretty(n), self.note_size) for n in open_string
         ])
 
     def _tune_string(self) -> ft.Column:
