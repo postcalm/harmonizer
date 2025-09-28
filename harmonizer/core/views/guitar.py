@@ -14,6 +14,7 @@ class GuitarViewer(InstrumentViewer):
     """Класс для отрисовки гитарного грифа"""
 
     pad = ft.padding.all(20)
+    string_height = 45
 
     note_size: FrameSize = FrameSize(37, 37)
 
@@ -29,6 +30,11 @@ class GuitarViewer(InstrumentViewer):
         self.open_strings = self._open_strings()
         self.neck = self._tune_string()
 
+        height = self.string_height * self._matrix.rows
+        self.page.window.height = \
+            self.page.window.max_height = \
+            self.page.window.min_height = self.page.window.height + height
+        self.page.update()
         self.set_content(
             ft.Row,
             [
@@ -36,7 +42,7 @@ class GuitarViewer(InstrumentViewer):
                 ft.VerticalDivider(width=15, color=ft.colors.BLACK),
                 self.neck,
             ],
-            height=270,
+            height=height,
         )
 
     def draw(self) -> None:

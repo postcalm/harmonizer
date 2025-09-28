@@ -1,5 +1,6 @@
 import flet as ft
 
+from harmonizer.core import Session
 from harmonizer.core.controllers.control import ControlController
 from harmonizer.core.controllers.guitar import GuitarController
 from harmonizer.core.controllers.tonality import TonalityController
@@ -16,6 +17,9 @@ class Homepage(ft.View):
         super().__init__()
         self.route = "/"
         self.padding = 0
+
+        # default
+        Session().instrument = "six_string"
 
         control = ControlController()
 

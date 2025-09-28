@@ -1,38 +1,55 @@
 {
-  "standard_e": {
-    "id": "standard_e",
-    "name": "Standard E",
-    "notes": [
-      "E",
-      "B",
-      "G",
-      "D",
-      "A",
-      "E"
-    ]
+  "six_string": {
+    "standard_e": {
+      "id": "standard_e",
+      "name": "Standard E",
+      "notes": [
+        "E",
+        "B",
+        "G",
+        "D",
+        "A",
+        "E"
+      ]
+    },
+    "drop_d": {
+      "id": "drop_d",
+      "name": "Drop D",
+      "notes": [
+        "E",
+        "B",
+        "G",
+        "D",
+        "A",
+        "D"
+      ]
+    },
+    "drop_c": {
+      "id": "drop_c",
+      "name": "Drop C",
+      "notes": [
+        "D",
+        "A",
+        "F",
+        "C",
+        "G",
+        "C"
+      ]
+    }
   },
-  "drop_d": {
-    "id": "drop_d",
-    "name": "Drop D",
-    "notes": [
-      "E",
-      "B",
-      "G",
-      "D",
-      "A",
-      "D"
-    ]
-  },
-  "drop_c": {
-    "id": "drop_c",
-    "name": "Drop C",
-    "notes": [
-      "D",
-      "A",
-      "F",
-      "C",
-      "G",
-      "C"
-    ]
+  "seven_string": {
+    "drop_a": {
+      "id": "drop_a",
+      "name": "Drop A",
+      "notes": [
+        "E",
+        "B",
+        "G",
+        "D",
+        "A",
+        "E",
+        "A"
+      ]
+    }
   }
 }

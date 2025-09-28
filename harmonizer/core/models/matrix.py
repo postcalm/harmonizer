@@ -15,6 +15,14 @@ class Matrix:
         self._columns = columns
         self._init_matrix()
 
+    @property
+    def rows(self) -> int:
+        return self._rows
+
+    @property
+    def columns(self) -> int:
+        return self._columns
+
     def transpose(self) -> None:
         """
         Транспонирует матрицу.
