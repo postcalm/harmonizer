@@ -41,6 +41,7 @@ class GuitarViewer(InstrumentViewer):
 
     def draw(self) -> None:
         Session().harmony = Harmony()
+        self._matrix = StringMatrix(Session().tune or Tuning().first())
         self.open_strings.controls.clear()
         self.open_strings.controls.append(self._open_strings())
         self.neck.controls.clear()
@@ -66,7 +67,7 @@ class GuitarViewer(InstrumentViewer):
     def _open_strings(self) -> ft.Column:
         open_string = self._matrix.get_transposed()[0]
         return ft.Column([
-            Note(Notes.get_pretty(n), self.note_size) for n in open_string
+            Note(n, self.note_size) for n in open_string
         ])
 
     def _tune_string(self) -> ft.Column:
