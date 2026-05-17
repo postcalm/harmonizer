@@ -23,6 +23,11 @@ class TuneViewer(SettingsViewer):
             on_click=self._update_tune,
         )
 
+    def draw(self, *args, **kwargs) -> None:
+        self.content.value = Tuning().first()
+        self.content.options = self._tune_list()
+        self.content.update()
+
     def _chosen_type(self, e: ft.ControlEvent):
         Session().tune = e.data
         Session().tonica = Notes.get_pretty(Tuning().get(e.data).last())

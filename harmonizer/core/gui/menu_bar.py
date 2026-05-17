@@ -41,10 +41,10 @@ class Menu(BaseMenu):
 
     def _swap_6_string(self, _):
         Session().instrument = "six_string"
-        # ControlController().get("tune").run()
+        ControlController().get("tune").run()
         ControlController().get("instrument").run()
 
     def _swap_7_string(self, _):
         Session().instrument = "seven_string"
-        # ControlController().get("tune").run()
+        ControlController().get("tune").run()
         ControlController().get("instrument").run()

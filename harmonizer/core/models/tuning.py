@@ -4,6 +4,7 @@ import harmonizer.core.session
 from harmonizer.core import Singleton
 from harmonizer.core.types.enums.notes import Notes
 from harmonizer.consts import TUNING_FILE, USER_TUNE_FILE
+from harmonizer.utils.configs import convert_config_tune_to_new_style
 from harmonizer.utils.filesys import load_json
 
 
@@ -30,6 +31,7 @@ class Tuning(metaclass=Singleton):
     __tunings: dict[str, dict[str, GuitarTune]] = {}
 
     def __init__(self):
+        convert_config_tune_to_new_style(USER_TUNE_FILE)
         self.__fill(load_json(TUNING_FILE))
         self.__fill(load_json(USER_TUNE_FILE))
 
@@ -60,7 +62,7 @@ class Tuning(metaclass=Singleton):
 
     def __fill(self, data: dict):
         for inst, tunes in data.items():
-            self.__tunings[inst] = {}
+            self.__tunings[inst] = self.__tunings.get(inst, {})
             for tid, tune in tunes.items():
                 if tid not in self.__tunings[inst]:
                     self.__tunings[inst].update({tid: GuitarTune(**tune)})
