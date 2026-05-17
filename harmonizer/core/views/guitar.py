@@ -6,7 +6,6 @@ from harmonizer.core.session import Session
 from harmonizer.core.size import FrameSize
 from harmonizer.core.models.harmony import Harmony
 from harmonizer.core.models.tuning import Tuning
-from harmonizer.core.types.enums.notes import Notes
 from harmonizer.core.views import InstrumentViewer
 
 
@@ -14,11 +13,13 @@ class GuitarViewer(InstrumentViewer):
     """Класс для отрисовки гитарного грифа"""
 
     pad = ft.padding.all(20)
+    string_height = 45
 
     note_size: FrameSize = FrameSize(37, 37)
 
     open_strings: ft.Column
     neck: ft.Column
+    divider: ft.VerticalDivider
 
     _matrix: StringMatrix
 
@@ -36,16 +37,18 @@ class GuitarViewer(InstrumentViewer):
                 ft.VerticalDivider(width=15, color=ft.colors.BLACK),
                 self.neck,
             ],
-            height=270,
         )
+        self._set_height()
 
     def draw(self) -> None:
         Session().harmony = Harmony()
         self._matrix = StringMatrix(Session().tune or Tuning().first())
+        self._set_height()
         self.open_strings.controls.clear()
         self.open_strings.controls.append(self._open_strings())
         self.neck.controls.clear()
         self.neck.controls.append(self._tune_string())
+        self.content.update()
         self.open_strings.update()
         self.neck.update()
 
@@ -72,3 +75,13 @@ class GuitarViewer(InstrumentViewer):
 
     def _tune_string(self) -> ft.Column:
         return ft.Column(self._strings(), spacing=10)
+
+    def _set_height(self):
+        # TODO: зафиксировать размер и не пытаться ресайзить
+        height = self.string_height * self._matrix.rows + 20
+        self.page.window.height = \
+            self.page.window.max_height = self.page.window.min_height + height
+        self.content.height = self.string_height * self._matrix.rows
+        self.page.update()
+        if self.content.page:
+            self.content.update()

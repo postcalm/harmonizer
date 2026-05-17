@@ -1,8 +1,10 @@
 from dataclasses import dataclass
 
+import harmonizer.core.session
 from harmonizer.core import Singleton
 from harmonizer.core.types.enums.notes import Notes
 from harmonizer.consts import TUNING_FILE, USER_TUNE_FILE
+from harmonizer.utils.configs import convert_config_tune_to_new_style
 from harmonizer.utils.filesys import load_json
 
 
@@ -26,19 +28,20 @@ class GuitarTune:
 
 class Tuning(metaclass=Singleton):
 
-    __tunings: dict[str, GuitarTune] = {}
+    __tunings: dict[str, dict[str, GuitarTune]] = {}
 
     def __init__(self):
+        convert_config_tune_to_new_style(USER_TUNE_FILE)
         self.__fill(load_json(TUNING_FILE))
         self.__fill(load_json(USER_TUNE_FILE))
 
     def first(self) -> str:
         """Первый набор гитарной настройки"""
-        return list(self.__tunings.keys())[0]
+        return list(self.__tunings.get(self.__inst).keys())[0]
 
     def last(self) -> str:
         """Последний набор гитарной настройки"""
-        return list(self.__tunings.keys())[-1]
+        return list(self.__tunings.get(self.__inst).keys())[-1]
 
     def update(self) -> None:
         """Обновляет список настроек"""
@@ -46,7 +49,7 @@ class Tuning(metaclass=Singleton):
 
     def all(self) -> list[GuitarTune]:
         """Возвращает все доступные настройки"""
-        return list(self.__tunings.values())
+        return list(self.__tunings.get(self.__inst).values())
 
     def get(self, tune: str) -> GuitarTune:
         """
@@ -55,9 +58,16 @@ class Tuning(metaclass=Singleton):
         :param tune: Идентификатор настройки
         :return: Настройка
         """
-        return self.__tunings.get(tune)
+        return self.__tunings.get(self.__inst).get(tune)
 
     def __fill(self, data: dict):
-        for tid, tune in data.items():
-            if tid not in self.__tunings:
-                self.__tunings[tid] = GuitarTune(**tune)
+        for inst, tunes in data.items():
+            self.__tunings[inst] = self.__tunings.get(inst, {})
+            for tid, tune in tunes.items():
+                if tid not in self.__tunings[inst]:
+                    self.__tunings[inst].update({tid: GuitarTune(**tune)})
+
+    @property
+    def __inst(self):
+        # обход цикличного импорта
+        return harmonizer.core.session.Session().instrument

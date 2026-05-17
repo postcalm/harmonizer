@@ -1,3 +1,5 @@
+from typing import Callable
+
 import flet as ft
 
 from harmonizer.core.size import FrameSize
@@ -54,6 +56,19 @@ class BaseMenu(ft.Row):
 
     def add_menu_items(self, items: list[ft.Control]) -> None:
         self.menu_items.controls = items
+
+    def add_submenu_item(
+            self,
+            submenu: ft.SubmenuButton,
+            name: str,
+            action: Callable,
+    ) -> None:
+        submenu.controls.append(
+            ft.MenuItemButton(
+                ft.Text(name),
+                on_click=action,
+            )
+        )
 
     @property
     def btn_close(self):
